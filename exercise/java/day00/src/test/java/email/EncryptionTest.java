@@ -21,6 +21,13 @@ class EncryptionTest {
     }
 
     @Test
+    void decryptEmail() throws Exception {
+        String decryptedEmail = encryption.decrypt(FileUtils.loadFile("EncryptedEmail.txt"));
+        assertThat(decryptedEmail).isNotBlank();
+        System.out.println("Decrypted email:\n" + decryptedEmail);
+    }
+
+    @Test
     void encryptDecrypt_shouldReturnOriginalString() {
         // It is a Property-Based test that checks the below property
         // I'm pretty sure we will talk about this concept during our Journey 🎅
