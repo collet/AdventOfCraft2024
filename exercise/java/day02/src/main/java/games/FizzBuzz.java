@@ -3,6 +3,8 @@ package games;
 import io.vavr.collection.Map;
 import io.vavr.control.Option;
 
+import java.util.Locale;
+
 import static io.vavr.control.Option.none;
 import static io.vavr.control.Option.some;
 
@@ -22,11 +24,14 @@ public class FizzBuzz {
     }
 
     private String convertSafely(Integer input) {
-        return mapping
-                .find(p -> is(p._1, input))
+        return mapping.filter(p -> is(p._1, input))
                 .map(p -> p._2)
-                .getOrElse(input.toString());
+                .mkString()
+                .transform(result -> result.isEmpty() ? input.toString() : result);
     }
+
+
+
 
     private static boolean is(Integer divisor, Integer input) {
         return input % divisor == 0;

@@ -22,7 +22,6 @@ class FizzBuzzTests {
     private static final Seq<String> fizzBuzzStrings = List("Fizz", "Buzz", "FizzBuzz");
 
     private static final FizzBuzz fizzBuzz = new FizzBuzz(LinkedHashMap.of(
-            15, "FizzBuzz",
             3, "Fizz",
             5, "Buzz"
     ));
