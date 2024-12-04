@@ -10,7 +10,7 @@ import static io.vavr.control.Option.some;
 
 public class FizzBuzz {
     public static final int MIN = 1;
-    public static final int MAX = 100;
+    public static final int MAX = 1200;
     private final Map<Integer, String> mapping;
 
     public FizzBuzz(Map<Integer, String> mapping) {

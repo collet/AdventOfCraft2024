@@ -19,11 +19,21 @@ import static io.vavr.test.Property.def;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class FizzBuzzTests {
-    private static final Seq<String> fizzBuzzStrings = List("Fizz", "Buzz", "FizzBuzz");
+    private static final Seq<String> fizzBuzzStrings = List(
+            "Fizz", "Buzz", "Whizz", "Bang",
+            "FizzBuzz", "FizzWhizz", "FizzBang",
+            "BuzzWhizz", "BuzzBang",
+            "WhizzBang",
+            "FizzBuzzWhizz", "FizzBuzzBang",
+            "FizzWhizzBang",
+            "BuzzWhizzBang",
+            "FizzBuzzWhizzBang");
 
     private static final FizzBuzz fizzBuzz = new FizzBuzz(LinkedHashMap.of(
             3, "Fizz",
-            5, "Buzz"
+            5, "Buzz",
+            7, "Whizz",
+            11, "Bang"
     ));
 
     public static Stream<Arguments> validInputs() {
@@ -32,27 +42,45 @@ class FizzBuzzTests {
                 Arguments.of(67, "67"),
                 Arguments.of(82, "82"),
                 Arguments.of(3, "Fizz"),
-                Arguments.of(66, "Fizz"),
-                Arguments.of(99, "Fizz"),
+                Arguments.of(66, "FizzBang"),
+                Arguments.of(99, "FizzBang"),
                 Arguments.of(5, "Buzz"),
                 Arguments.of(50, "Buzz"),
                 Arguments.of(85, "Buzz"),
                 Arguments.of(15, "FizzBuzz"),
                 Arguments.of(30, "FizzBuzz"),
-                Arguments.of(45, "FizzBuzz")
+                Arguments.of(35, "BuzzWhizz"),
+                Arguments.of(45, "FizzBuzz"),
+                Arguments.of(7, "Whizz"),
+                Arguments.of(28, "Whizz"),
+                Arguments.of(77, "WhizzBang"),
+                Arguments.of(21, "FizzWhizz"),
+                Arguments.of(42, "FizzWhizz"),
+                Arguments.of(84, "FizzWhizz"),
+                Arguments.of(35, "BuzzWhizz"),
+                Arguments.of(70, "BuzzWhizz"),
+                Arguments.of(140, "BuzzWhizz"),
+                Arguments.of(55, "BuzzBang"),
+                Arguments.of(110, "BuzzBang"),
+                Arguments.of(105, "FizzBuzzWhizz"),
+                Arguments.of(210, "FizzBuzzWhizz"),
+                Arguments.of(165, "FizzBuzzBang"),
+                Arguments.of(231, "FizzWhizzBang"),
+                Arguments.of(385, "BuzzWhizzBang"),
+                Arguments.of(1155, "FizzBuzzWhizzBang")
         );
     }
 
     @ParameterizedTest
     @MethodSource("validInputs")
-    void parse_successfully_numbers_between_1_and_100_samples(int input, String expectedResult) {
+    void parse_successfully_relevant_numbers_between_MIN_and_MAX_samples(int input, String expectedResult) {
         assertThat(fizzBuzz.convert(input))
                 .isEqualTo(Some(expectedResult));
     }
 
     @Test
-    void parse_return_valid_string_for_numbers_between_1_and_100() {
-        def("Some(validString) for numbers in [1; 100]")
+    void parse_return_valid_string_for_numbers_between_MIN_and_MAX() {
+        def("Some(validString) for numbers in [%d; %d]".formatted(MIN, MAX))
                 .forAll(validInput())
                 .suchThat(this::isConvertValid)
                 .check()
